@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,13 +9,13 @@ public class Main {
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setLayout(new GridLayout(16, 16)); // Set layout before adding components
 
-        // Add some buttons as an example
-        for (int i = 0; i < 16 * 16; i++) {
-            frame.add(new JButton());
-        }
+        int[] playerPos = {10, 10};
+        int fov = 10;
 
-        frame.setVisible(true); // Set visibility at the end
+        Map map = new Map(200, 200);
+        frame.add(map.getPanel(playerPos, fov));
+
+        frame.setVisible(true);
     }
 }
