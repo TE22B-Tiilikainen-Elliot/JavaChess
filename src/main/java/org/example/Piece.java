@@ -1,27 +1,22 @@
 package org.example;
 
-import java.util.List;
+public class Piece {
+    private final int type;
 
-public abstract class Piece {
-    protected Position position;
-    protected final boolean isWhite;
-
-    public Piece(Position position, boolean isWhite) {
-        this.position = position;
-        this.isWhite = isWhite;
-    }
-
-    public Position getPosition() {
-        return position;
+    public Piece(int type) {
+        this.type = type;
     }
 
     public boolean isWhite() {
-        return isWhite;
+        if (type >= 1 && type <= 6){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
-    public abstract List<Position> getValidMoves();
-
-    public void move(Position newPosition) {
-        this.position = newPosition;
+    public int getType() {
+        return type;
     }
 }
