@@ -1,22 +1,18 @@
 package org.example;
 
-public class Piece {
-    private final int type;
+public abstract class Piece {
+    protected boolean white;
 
-    public Piece(int type) {
-        this.type = type;
+    public Piece(boolean white) {
+        this.white = white;
     }
 
     public boolean isWhite() {
-        if (type >= 1 && type <= 6){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return white;
     }
 
-    public int getType() {
-        return type;
-    }
+    public abstract boolean isValidMove(Position from, Position to, ChessBoard board);
+
+    @Override
+    public abstract String toString();
 }

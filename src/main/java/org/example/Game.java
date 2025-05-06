@@ -20,14 +20,16 @@ public class Game {
         frame.setVisible(true);
     }
 
-    public boolean isCorrectTurn(Piece piece) {
-        if (isWhiteTurn && piece.isWhite()) return true;
-        if (!isWhiteTurn && !piece.isWhite()) return true;
-        return false;
+    public boolean isCorrectTurn(boolean isPieceWhite) {
+        return isWhiteTurn == isPieceWhite;
     }
 
     public void switchTurn() {
         isWhiteTurn = !isWhiteTurn;
         System.out.println(isWhiteTurn ? "White's Turn" : "Black's Turn");
+    }
+
+    public boolean isWhiteTurn() {
+        return isWhiteTurn;
     }
 }
