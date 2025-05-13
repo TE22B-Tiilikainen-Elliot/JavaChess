@@ -1,43 +1,27 @@
+// Bishop.java
 package org.example.Pieces;
 
-import org.example.Piece;
-import org.example.Position;
-import org.example.ChessBoard;
+import org.example.Direction;
+import java.util.List;
 
-public class Bishop extends Piece {
+public class Bishop extends SlidingPiece {
     public Bishop(boolean white) {
         super(white);
     }
 
+    // Löparen rör sig diagonalt i alla fyra riktningar
     @Override
-    public boolean isValidMove(Position from, Position to, ChessBoard board) {
-        // Bishops move diagonally (equal row and column differences)
-        if (Math.abs(from.getRow() - to.getRow()) != Math.abs(from.getCol() - to.getCol())) {
-            return false;
-        }
-
-        // Check if path is clear
-        int rowStep = from.getRow() < to.getRow() ? 1 : -1;
-        int colStep = from.getCol() < to.getCol() ? 1 : -1;
-
-        int row = from.getRow() + rowStep;
-        int col = from.getCol() + colStep;
-
-        while (row != to.getRow() && col != to.getCol()) {
-            if (board.getPiece(new Position(row, col)) != null) {
-                return false;
-            }
-            row += rowStep;
-            col += colStep;
-        }
-
-        // Check destination
-        Piece target = board.getPiece(to);
-        return target == null || target.isWhite() != this.isWhite();
+    protected List<Direction> getSlideDirections() {
+        return List.of(
+                new Direction(1, 1),    // Nedåt höger
+                new Direction(1, -1),   // Nedåt vänster
+                new Direction(-1, 1),    // Uppåt höger
+                new Direction(-1, -1)   // Uppåt vänster
+        );
     }
 
     @Override
     public String toString() {
-        return isWhite() ? "♗" : "♝";
+        return isWhite() ? "♗" : "♝";  // Vit/svart löpare
     }
 }

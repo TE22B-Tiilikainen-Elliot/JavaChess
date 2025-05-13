@@ -1,21 +1,10 @@
 package org.example;
 
-import java.util.Objects;
+// Representerar en ruta på schackbrädet (rad, kolumn)
+public record Position(int row, int col) {
 
-public class Position {
-    private final int row;
-    private final int col;
-
-    public Position(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
+    // Flyttar positionen i given riktning och returnerar ny position
+    public Position add(Direction dir) {
+        return new Position(row + dir.rowDelta(), col + dir.colDelta());
     }
 }

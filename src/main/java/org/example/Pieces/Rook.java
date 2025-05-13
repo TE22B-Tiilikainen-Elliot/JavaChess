@@ -1,47 +1,27 @@
+// Rook.java
 package org.example.Pieces;
 
-import org.example.Piece;
-import org.example.Position;
-import org.example.ChessBoard;
+import org.example.Direction;
+import java.util.List;
 
-public class Rook extends Piece {
+public class Rook extends SlidingPiece {
     public Rook(boolean white) {
         super(white);
     }
 
+    // Tornet rör sig enbart rakt (horisontellt/vertikalt)
     @Override
-    public boolean isValidMove(Position from, Position to, ChessBoard board) {
-        // Rooks move in straight lines (same row or same column)
-        if (from.getRow() != to.getRow() && from.getCol() != to.getCol()) {
-            return false;
-        }
-
-        // Check if path is clear
-        if (from.getRow() == to.getRow()) {
-            // Horizontal move
-            int colStep = from.getCol() < to.getCol() ? 1 : -1;
-            for (int col = from.getCol() + colStep; col != to.getCol(); col += colStep) {
-                if (board.getPiece(new Position(from.getRow(), col)) != null) {
-                    return false;
-                }
-            }
-        } else {
-            // Vertical move
-            int rowStep = from.getRow() < to.getRow() ? 1 : -1;
-            for (int row = from.getRow() + rowStep; row != to.getRow(); row += rowStep) {
-                if (board.getPiece(new Position(row, from.getCol())) != null) {
-                    return false;
-                }
-            }
-        }
-
-        // Check destination
-        Piece target = board.getPiece(to);
-        return target == null || target.isWhite() != this.isWhite();
+    protected List<Direction> getSlideDirections() {
+        return List.of(
+                new Direction(1, 0),    // Nedåt
+                new Direction(-1, 0),   // Uppåt
+                new Direction(0, 1),    // Höger
+                new Direction(0, -1)    // Vänster
+        );
     }
 
     @Override
     public String toString() {
-        return isWhite() ? "♖" : "♜";
+        return isWhite() ? "♖" : "♜";  // Vit/svart torn
     }
 }

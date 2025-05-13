@@ -1,6 +1,5 @@
 package org.example.Pieces;
 
-import org.example.Piece;
 import org.example.Position;
 import org.example.ChessBoard;
 
@@ -9,23 +8,21 @@ public class King extends Piece {
         super(white);
     }
 
+    // Kungen kan flytta ett steg i vilken riktning som helst
     @Override
     public boolean isValidMove(Position from, Position to, ChessBoard board) {
-        int rowDiff = Math.abs(to.getRow() - from.getRow());
-        int colDiff = Math.abs(to.getCol() - from.getCol());
+        int rowDiff = Math.abs(to.row() - from.row());
+        int colDiff = Math.abs(to.col() - from.col());
 
-        // Normal king move
         if (rowDiff <= 1 && colDiff <= 1) {
             Piece target = board.getPiece(to);
             return target == null || target.isWhite() != this.isWhite();
         }
-
         return false;
     }
 
-
     @Override
     public String toString() {
-        return isWhite() ? "♔" : "♚";
+        return isWhite() ? "♔" : "♚";  // Vit/svart kung
     }
 }

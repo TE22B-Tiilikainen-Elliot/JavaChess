@@ -1,48 +1,31 @@
+// Queen.java
 package org.example.Pieces;
 
-import org.example.Piece;
-import org.example.Position;
-import org.example.ChessBoard;
+import org.example.Direction;
+import java.util.List;
 
-public class Queen extends Piece {
+public class Queen extends SlidingPiece {
     public Queen(boolean white) {
         super(white);
     }
 
+    // Damen kan röra sig i alla riktningar - både rakt och diagonalt
     @Override
-    public boolean isValidMove(Position from, Position to, ChessBoard board) {
-        // Queen combines rook and bishop moves
-        // Check if it's a straight or diagonal move
-        boolean isStraight = from.getRow() == to.getRow() || from.getCol() == to.getCol();
-        boolean isDiagonal = Math.abs(from.getRow() - to.getRow()) == Math.abs(from.getCol() - to.getCol());
-
-        if (!isStraight && !isDiagonal) {
-            return false;
-        }
-
-        // Check if path is clear
-        int rowStep = Integer.compare(to.getRow(), from.getRow());
-        int colStep = Integer.compare(to.getCol(), from.getCol());
-
-        int row = from.getRow() + rowStep;
-        int col = from.getCol() + colStep;
-
-        while (row != to.getRow() || col != to.getCol()) {
-            if (board.getPiece(new Position(row, col)) != null) {
-                return false;
-            }
-            row += rowStep;
-            col += colStep;
-        }
-
-        // Check destination
-        Piece target = board.getPiece(to);
-        return target == null || target.isWhite() != this.isWhite();
+    protected List<Direction> getSlideDirections() {
+        return List.of(
+                new Direction(1, 0),    // Nedåt
+                new Direction(-1, 0),   // Uppåt
+                new Direction(0, 1),     // Höger
+                new Direction(0, -1),    // Vänster
+                new Direction(1, 1),    // Nedåt höger
+                new Direction(1, -1),   // Nedåt vänster
+                new Direction(-1, 1),    // Uppåt höger
+                new Direction(-1, -1)   // Uppåt vänster
+        );
     }
-
 
     @Override
     public String toString() {
-        return isWhite() ? "♕" : "♛";
+        return isWhite() ? "♕" : "♛";  // Vit/svart dam
     }
 }
