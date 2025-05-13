@@ -1,0 +1,106 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Bishop {
+  + toString(): String
+  # getSlideDirections(): List<Direction>
+}
+class ChessBoard {
+  - game: Game
+  - board: Piece[][]
+  - selectedPosition: Position
+  - buttons: JButton[][]
+  - highlightSelectedPosition(Position): void
+  + getPiece(Position): Piece
+  + isValidPosition(Position): boolean
+  - handleBoardClick(Position): void
+  - initializeBoard(): void
+  - clearHighlights(): void
+  + updateButton(int, int): void
+  - initializePieces(): void
+  - tryMove(Position, Position): void
+}
+entity Direction << record >> {
+  - rowDelta: int
+  - colDelta: int
+  + rowDelta(): int
+  + colDelta(): int
+}
+class Game {
+  - board: ChessBoard
+  - isWhiteTurn: boolean
+  + switchTurn(): void
+  + start(): void
+  + isCorrectTurn(boolean): boolean
+}
+class King {
+  + isValidMove(Position, Position, ChessBoard): boolean
+  + toString(): String
+}
+class Knight {
+  + isValidMove(Position, Position, ChessBoard): boolean
+  + toString(): String
+}
+class Main {
+  + main(String[]): void
+}
+class Pawn {
+  + toString(): String
+  + isValidMove(Position, Position, ChessBoard): boolean
+}
+class Piece {
+  # white: boolean
+  + isWhite(): boolean
+  + isValidMove(Position, Position, ChessBoard): boolean
+  + toString(): String
+}
+entity Position << record >> {
+  - col: int
+  - row: int
+  + col(): int
+  + row(): int
+  + add(Direction): Position
+}
+class Queen {
+  # getSlideDirections(): List<Direction>
+  + toString(): String
+}
+class Rook {
+  # getSlideDirections(): List<Direction>
+  + toString(): String
+}
+class SlidingPiece {
+  # getSlideDirections(): List<Direction>
+  + isValidMove(Position, Position, ChessBoard): boolean
+  # calculateValidMoves(Position, ChessBoard): List<Position>
+}
+
+Bishop        -[#595959,dashed]->  Direction    : "«create»"
+Bishop        -[#000082,plain]-^  SlidingPiece 
+ChessBoard    -[#595959,dashed]->  Bishop       : "«create»"
+ChessBoard   "1" *-[#595959,plain]-> "game\n1" Game         
+ChessBoard    -[#595959,dashed]->  King         : "«create»"
+ChessBoard    -[#595959,dashed]->  Knight       : "«create»"
+ChessBoard    -[#595959,dashed]->  Pawn         : "«create»"
+ChessBoard    -[#595959,dashed]->  Piece        : "«create»"
+ChessBoard   "1" *-[#595959,plain]-> "board\n*" Piece        
+ChessBoard    -[#595959,dashed]->  Position     : "«create»"
+ChessBoard   "1" *-[#595959,plain]-> "selectedPosition\n1" Position     
+ChessBoard    -[#595959,dashed]->  Queen        : "«create»"
+ChessBoard    -[#595959,dashed]->  Rook         : "«create»"
+Game          -[#595959,dashed]->  ChessBoard   : "«create»"
+Game         "1" *-[#595959,plain]-> "board\n1" ChessBoard   
+King          -[#000082,plain]-^  Piece        
+Knight        -[#000082,plain]-^  Piece        
+Main          -[#595959,dashed]->  Game         : "«create»"
+Pawn          -[#000082,plain]-^  Piece        
+Pawn          -[#595959,dashed]->  Position     : "«create»"
+Queen         -[#595959,dashed]->  Direction    : "«create»"
+Queen         -[#000082,plain]-^  SlidingPiece 
+Rook          -[#595959,dashed]->  Direction    : "«create»"
+Rook          -[#000082,plain]-^  SlidingPiece 
+SlidingPiece  -[#000082,plain]-^  Piece        
+@enduml
